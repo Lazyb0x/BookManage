@@ -17,11 +17,11 @@ class BTNode
         BTNode();
         BTNodeP(T) parent;              //双亲节点
         vector<int> key;                //元素
-        vector<T> record;				//记录类型,需要定义"<<"及"="操作
+        vector<T> record;               //记录类型,需要定义"<<"及"="操作
         vector<BTNodeP(T)> child;       //孩子
 
-        int x;							//绘图x轴坐标
-        int y;							//绘图y轴坐标
+        int x;                          //绘图x轴坐标
+        int y;                          //绘图y轴坐标
         void printBTNode();             //打印节点元素
         void printBTNode(string &s);
         void printChild();              //打印节点的孩子树
@@ -50,7 +50,7 @@ class BTree
         bool insertRecord(int e,T & record);
         bool remove(int e);
         void display();
-        void calcuPaint();						//计算绘图坐标
+        void calcuPaint();                      //计算绘图坐标
 
         BTree();
 
@@ -173,16 +173,16 @@ BTNodeP(T) BTree<T>::search(int e)
                 //p->printBTNode();
                 //output<<'\n';
                 currrent = p;
-                return p;					//找到并返回指针
+                return p;                    //找到并返回指针
             }
 
-        if (p->child.size())				//是否已到叶子节点
+        if (p->child.size())                 //是否已到叶子节点
         {
             p = p->child[n+1];
         }
         else
         {
-            currrent = p;					//未找到，标记位置
+            currrent = p;                    //未找到，标记位置
             //output<<"###未找到,位置:";
             //p->printBTNode();
             //output<<'\n';
@@ -195,7 +195,7 @@ BTNodeP(T) BTree<T>::search(int e)
 template <class T>
 bool BTree<T>::insert(int e)
 {
-    T record;									//空记录，不做任何用
+    T record;                                    //空记录，不做任何用
     return insertRecord(e,record);
 }
 
@@ -223,9 +223,9 @@ bool BTree<T>::remove(int e)
     BTNodeP(T) p = currrent;
     int n = p->search(e);
 
-    if (p->child.size())						//不是叶子节点，用叶子节点换
+    if (p->child.size())                        //不是叶子节点，用叶子节点换
     {
-        BTNodeP(T) q = p->child[n+1];				//向右，然后左转走到尽头
+        BTNodeP(T) q = p->child[n+1];           //向右，然后左转走到尽头
         while(q->child.size())
         {
             q = q->child[0];
@@ -252,7 +252,7 @@ void BTree<T>::solveOverFlow(BTNodeP(T) p)
     int n = (M+1)/2;
     int upkey = p->key[n-1];
     T uprecord = p->record[n-1];
-    BTNodeP(T) p2 = new BTNode<T>;				//分裂出的新节点
+    BTNodeP(T) p2 = new BTNode<T>;                //分裂出的新节点
     p2->parent = p->parent;
     for (int i=0;i<n-1;i++)
     {
@@ -264,11 +264,11 @@ void BTree<T>::solveOverFlow(BTNodeP(T) p)
         p->key.erase(p->key.begin());
         p->record.erase(p->record.begin());
     }
-    if (p->child.size())								//是否叶子节点
+    if (p->child.size())                                	//是否叶子节点
     {
         for (int i=0;i<n;i++)
             {
-                p->child[0]->parent = p2;				//孩子交给新的双亲
+                p->child[0]->parent = p2;                   //孩子交给新的双亲
                 p2->child.push_back(p->child[0]);
                 p->child.erase(p->child.begin());
             }
@@ -276,15 +276,15 @@ void BTree<T>::solveOverFlow(BTNodeP(T) p)
 
     BTNodeP(T) pa = p->parent;
 
-    if (!pa)							//p是根节点
+    if (!pa)                                                //p是根节点
     {
         pa = new BTNode<T>;
-        p2->parent = p->parent = pa;		//重新设置分裂出去节点的双亲
+        p2->parent = p->parent = pa;                        //重新设置分裂出去节点的双亲
         pa->key.push_back(upkey);
         pa->record.push_back(uprecord);
         pa->child.push_back(p2);
         pa->child.push_back(p);
-        root = pa;									//新的根节点
+        root = pa;                                         //新的根节点
     }
     else
     {
@@ -294,7 +294,7 @@ void BTree<T>::solveOverFlow(BTNodeP(T) p)
         pa->child.insert(pa->child.begin()+x+1,p2);
     }
 
-    if (pa->key.size()>=M) solveOverFlow(pa);		//往上继续查找
+    if (pa->key.size()>=M) solveOverFlow(pa);        //往上继续查找
 }
 
 template <class T>
@@ -302,22 +302,22 @@ void BTree<T>::solveUnderFlow(BTNodeP(T) p)
 {
     if (p == root)
     {
-        if (p->key.size() == 0 && p->child.size() == 0) root = NULL;		//真·根节点空,不会出现,但为了保险
+        if (p->key.size() == 0 && p->child.size() == 0) root = NULL;        //真·根节点空,不会出现,但为了保险
         if (p->key.size() == 0 && p->child.size() > 0)
         {
-            root = p->child[0];										//改变根节点，这时只可能有1个孩子
+            root = p->child[0];                                        //改变根节点，这时只可能有1个孩子
             p->child[0]->parent = NULL;
         }
         return;
     }
 
     int n;
-    for (int i=0;i<p->parent->child.size();i++)						//找出p在双亲中的位置
+    for (int i=0;i<p->parent->child.size();i++)                        //找出p在双亲中的位置
     {
         if (p == p->parent->child[i]) n = i;
     }
 
-    if (n != 0)														//p有左兄弟
+    if (n != 0)                                                        //p有左兄弟
     {
         BTNodeP(T) leftBro = p->parent->child[n-1];
         if (leftBro->key.size()>(((M+1)/2)-1))
@@ -339,7 +339,7 @@ void BTree<T>::solveUnderFlow(BTNodeP(T) p)
             }
             return;
         }
-        else														//合并节点操作
+        else                                                        //合并节点操作
         {
             leftBro->key.push_back(p->parent->key[n-1]);
             leftBro->record.push_back(p->parent->record[n-1]);
@@ -350,7 +350,7 @@ void BTree<T>::solveUnderFlow(BTNodeP(T) p)
             }
             for (int i=0;i<p->child.size();i++)
             {
-                p->child[i]->parent = leftBro;						//孩子的双亲是左兄弟
+                p->child[i]->parent = leftBro;                        //孩子的双亲是左兄弟
                 leftBro->child.push_back(p->child[i]);
             }
             p->parent->key.erase(p->parent->key.begin()+n-1);
@@ -361,7 +361,7 @@ void BTree<T>::solveUnderFlow(BTNodeP(T) p)
             return;
         }
     }
-    if (n!=p->parent->child.size()-1)								//p有右兄弟
+    if (n!=p->parent->child.size()-1)                                //p有右兄弟
     {
         BTNodeP(T) rightBro = p->parent->child[n+1];
         if (rightBro->key.size()>(((M+1)/2)-1))
@@ -423,13 +423,13 @@ void BTree<T>::calcuPaint(BTNodeP(T) p,int py)
 {
     if (p == NULL) return;
     size +=p->key.size();
-    p->y = py++;									//对于y轴用前序遍历
+    p->y = py++;                                    //对于y轴用前序遍历
     int n = (p->child.size()+1)/2;
     for (int i=0;i<n;i++)
     {
         calcuPaint(p->child[i],py);
     }
-    p->x = px++;									//对于x轴用类似的中序遍历
+    p->x = px++;                                    //对于x轴用类似的中序遍历
     for (int i=n;i<p->child.size();i++)
     {
         calcuPaint(p->child[i],py);
