@@ -16,7 +16,7 @@
 
 其中`BTree.h`文件完全使用C++的STL库编写，可以单独取出在非Qt环境下使用。
 
-函数的结构和绘图很多参考自[雅乐网](www.yalewoo.com)。Github:[地址](https://github.com/yalewoo/cpp-data-structure)。
+函数的结构和绘图很多参考自[雅乐网](http://www.yalewoo.com)。Github:[地址](https://github.com/yalewoo/cpp-data-structure)。
 
 ### 下载
 
